@@ -1,0 +1,17 @@
+<div class="container">
+  <div *ngIf="answers.length" >
+    <div *ngFor="let answer of answers; let i = index" class="result-question">
+      <div class="question">
+        <p>Q. <b>{{answer.question}}</b></p>
+      </div>
+      <div *ngIf="answer.answerType === 'text'" class="answer">
+        <p>{{answer.data}}</p>
+      </div>
+      <div *ngIf="answer.answerType !== 'text'" class="answer">
+        <div *ngFor="let nestedData of answer.data; let j = index">
+          <p>{{nestedData.value}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

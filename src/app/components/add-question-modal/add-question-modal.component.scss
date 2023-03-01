@@ -1,0 +1,11 @@
+.answer-type {
+  p {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  margin-bottom: 16px;
+}
+
+::ng-deep .mat-radio-label-content {
+  margin-right: 16px;
+}

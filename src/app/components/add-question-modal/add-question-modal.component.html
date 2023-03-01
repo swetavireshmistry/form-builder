@@ -1,0 +1,43 @@
+<h1 mat-dialog-title>Add a new Question</h1>
+<div mat-dialog-content>
+  <form [formGroup]="questionForm">
+
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Question</mat-label>
+      <input type="text" matInput formControlName="question">
+      <mat-error *ngIf="questionForm.controls['question'].hasError('required')">
+        Question <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <div class="answer-type">
+      <p>Select answer type</p>
+      <mat-radio-group formControlName="answerType">
+        <mat-radio-button value="text">Text</mat-radio-button>
+        <mat-radio-button value="checkbox">Checkbox</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <ng-container *ngIf="questionForm.controls['answerType'].value === 'checkbox'">
+      <div formArrayName="options">
+
+        <div *ngFor="let option of options.controls; let i = index">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Option</mat-label>
+            <input type="text" matInput [formControlName]="i">
+            <mat-error *ngIf="options.controls[i].hasError('required')">
+              Option <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <button mat-stroked-button color="primary" (click)="addOption()" >+ Add another answer</button>
+      </div>
+    </ng-container>
+
+  </form>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" (click)="onSubmit()">Submit</button>
+</div>
+

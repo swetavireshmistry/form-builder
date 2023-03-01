@@ -1,0 +1,34 @@
+<div class="container">
+  <div *ngIf="!questions.length">
+    <button mat-raised-button color="primary" (click)="addQuestionClicked()">Add New Question</button>
+  </div>
+
+  <div *ngIf="questions.length">
+    <div *ngFor="let question of questions; let i = index" class="quiz-question">
+      <p>{{question.question}}</p>
+
+      <div *ngIf="question.answerType === 'text'">
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label>Answer</mat-label>
+          <input [type]="question.answerType" matInput [(ngModel)]="questions[i].data">
+        </mat-form-field>
+      </div>
+
+      <div *ngIf="question.answerType === 'checkbox'">
+        <div *ngFor="let option of question.options">
+          <mat-checkbox #checkBox [value]="option" (change)="onChange(checkBox, i)" class="form-control">
+            {{option}}
+          </mat-checkbox>
+        </div>
+      </div>
+    </div>
+
+    <button mat-raised-button color="primary" (click)="addQuestionClicked()">Add New Question</button>
+
+    <div align="end">
+      <button mat-raised-button color="primary" type="submit" (click)="saveAnswer()">Review my answers</button>
+    </div>
+
+  </div>
+</div>
+
