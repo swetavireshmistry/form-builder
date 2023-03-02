@@ -19,6 +19,8 @@ export class AddQuestionModalComponent implements OnInit, AfterViewInit {
     this.questionForm = this.fb.group({
       question: ['', [Validators.required]],
       answerType: 'text',
+      isRequired: false,
+      isAllowUser: false,
     })
   }
 
@@ -48,11 +50,13 @@ export class AddQuestionModalComponent implements OnInit, AfterViewInit {
 
 
   onSubmit() {
+    if (this.options) {
+      this.options.push(this.fb.control('Other'));
+    }
     this.dialogRef.close(this.questionForm);
   }
 
   get question () {
     return this.questionForm.get('question');
   }
-
 }

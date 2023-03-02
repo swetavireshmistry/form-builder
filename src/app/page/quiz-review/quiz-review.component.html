@@ -9,7 +9,9 @@
       </div>
       <div *ngIf="answer.answerType !== 'text'" class="answer">
         <div *ngFor="let nestedData of answer.data; let j = index">
-          <p>{{nestedData.value}}</p>
+          <ul>
+            <li>{{nestedData.value}}</li>
+          </ul>
         </div>
       </div>
     </div>

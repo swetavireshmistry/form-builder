@@ -31,13 +31,26 @@
           </mat-form-field>
         </div>
 
-        <button mat-stroked-button color="primary" (click)="addOption()" >+ Add another answer</button>
+        <button mat-raised-button color="primary" (click)="addOption()" [disabled]="options.controls.length === 5">+ Add another answer</button>
+      </div>
+    </ng-container>
+
+    <ng-container>
+      <div>
+        <mat-checkbox class="form-control" formControlName="isAllowUser">
+          <p style="color: midnightblue">Allow user to specify their own answer</p>
+        </mat-checkbox>
+      </div>
+      <div>
+        <mat-checkbox class="form-control" formControlName="isRequired">
+          <p style="color: midnightblue">This field is required</p>
+        </mat-checkbox>
       </div>
     </ng-container>
 
   </form>
 </div>
 <div mat-dialog-actions align="end">
-  <button mat-raised-button color="primary" (click)="onSubmit()">Submit</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!questionForm.valid">Submit</button>
 </div>
 

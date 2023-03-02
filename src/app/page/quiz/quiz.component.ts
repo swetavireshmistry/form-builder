@@ -12,6 +12,9 @@ export interface Question {
   question: string;
   options: any;
   data: any;
+  isAllowUser: boolean;
+  isRequired: boolean;
+  requiredMessage: string;
 }
 
 @Component({
@@ -53,18 +56,55 @@ export class QuizComponent implements OnInit, OnDestroy {
   onChange(checkbox: any, index: any) {
     this.checked = [];
     const checked = this.checkBox.filter(checkbox => checkbox.checked);
-    checked.forEach(data => {
-      this.checked.push ({
-        'checked' : data.checked,
-        'value':  data.value
+
+    if (checked.length) {
+      checked.forEach(data => {
+        data.isOtherValue = '';
+        data.isOther = false;
+        if (data.value === 'Other') {
+          data.isOther = data.checked === true;
+        }
+
+        if (!data.questionIndex) {
+          data.questionIndex = index;
+        }
+
+        if (data.questionIndex === index) {
+          this.checked.push ({
+            'checked' : data.checked,
+            'value':  data.value,
+            'isOther': data.isOther,
+            'isOtherValue': data.isOtherValue
+          })
+        }
+        this.questions[index].data = this.checked;
       })
-      this.questions[index].data = this.checked;
-    })
+    } else {
+      this.questions[index].data = [];
+    }
   }
 
   saveAnswer() {
+    this.questions.map((question) => {
+      if (question.answerType === 'checkbox') {
+        const isOtherFindIndex = question.data.findIndex((d: any) => d.value === 'Other' && d.isOtherValue !== '')
+        if (isOtherFindIndex > -1) {
+          question.data[isOtherFindIndex].value = question.data[isOtherFindIndex].value + ' - ' + question.data[isOtherFindIndex].isOtherValue
+        }
+      }
+    })
     this.commonService.answers.next(this.questions);
     this.router.navigate(['/form','answers']);
+  }
+
+  isDisable(): boolean {
+    let isDisable = false;
+    this.questions.map((question) => {
+      if (question.isRequired && (!question.data || question.data.length === 0)) {
+        isDisable = true
+      }
+    })
+    return isDisable;
   }
 
   ngOnDestroy() {

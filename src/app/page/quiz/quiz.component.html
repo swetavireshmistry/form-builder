@@ -10,7 +10,10 @@
       <div *ngIf="question.answerType === 'text'">
         <mat-form-field class="full-width" appearance="fill">
           <mat-label>Answer</mat-label>
-          <input [type]="question.answerType" matInput [(ngModel)]="questions[i].data">
+          <input [type]="question.answerType" matInput [(ngModel)]="questions[i].data" [required]="question.isRequired">
+          <mat-error *ngIf="question.isRequired && (!question.data || question?.data?.length === 0)">
+            This field is <strong>required</strong>
+          </mat-error>
         </mat-form-field>
       </div>
 
@@ -20,13 +23,30 @@
             {{option}}
           </mat-checkbox>
         </div>
+
+        <div *ngIf="question.isRequired && (!question.data || question?.data?.length === 0)">
+          <mat-error>This field is Required</mat-error>
+        </div>
+      </div>
+
+      <div *ngIf="question.answerType === 'checkbox'">
+        <div *ngFor="let data of question.data; let j = index">
+          <div *ngIf="data.isOther">
+            <mat-form-field appearance="fill" style="width: 50%">
+              <mat-label>Your answer</mat-label>
+              <input type="text" matInput [(ngModel)]="data.isOtherValue">
+            </mat-form-field>
+          </div>
+        </div>
       </div>
     </div>
 
-    <button mat-raised-button color="primary" (click)="addQuestionClicked()">Add New Question</button>
+    <div>
+      <button mat-raised-button color="primary" (click)="addQuestionClicked()">Add New Question</button>
+    </div>
 
-    <div align="end">
-      <button mat-raised-button color="primary" type="submit" (click)="saveAnswer()">Review my answers</button>
+    <div style="margin-top: 20px">
+      <button mat-raised-button color="primary" type="submit" (click)="saveAnswer()" [disabled]="isDisable()">Review my answers</button>
     </div>
 
   </div>
