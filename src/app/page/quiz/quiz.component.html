@@ -5,27 +5,39 @@
 
   <div *ngIf="questions.length">
     <div *ngFor="let question of questions; let i = index" class="quiz-question">
-      <p>{{question.question}}</p>
+      <p style="color: #404040">Q. <b>{{question.question}}</b></p>
 
       <div *ngIf="question.answerType === 'text'">
         <mat-form-field class="full-width" appearance="fill">
           <mat-label>Answer</mat-label>
-          <input [type]="question.answerType" matInput [(ngModel)]="questions[i].data" [required]="question.isRequired">
+          <input [type]="question.answerType" matInput
+                 [(ngModel)]="questions[i].data"
+                 [required]="question.isRequired"
+                 [disabled]="!question.isAllowUser && userId === question.userId">
           <mat-error *ngIf="question.isRequired && (!question.data || question?.data?.length === 0)">
             This field is <strong>required</strong>
           </mat-error>
+          <mat-hint *ngIf="!question.isAllowUser && userId === question.userId" style="color: forestgreen">
+            You don't have permission to allow your own answer
+          </mat-hint>
         </mat-form-field>
       </div>
 
       <div *ngIf="question.answerType === 'checkbox'">
         <div *ngFor="let option of question.options">
-          <mat-checkbox #checkBox [value]="option" (change)="onChange(checkBox, i)" class="form-control">
+          <mat-checkbox #checkBox [value]="option"
+                        (change)="onChange(checkBox, i)" class="form-control"
+                        [disabled]="!question.isAllowUser && userId === question.userId">
             {{option}}
           </mat-checkbox>
         </div>
 
         <div *ngIf="question.isRequired && (!question.data || question?.data?.length === 0)">
           <mat-error>This field is Required</mat-error>
+        </div>
+
+        <div *ngIf="!question.isAllowUser && userId === question.userId" style="color: forestgreen">
+          <mat-hint> You don't have permission to allow your own answer</mat-hint>
         </div>
       </div>
 

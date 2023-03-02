@@ -25,32 +25,34 @@
           <mat-form-field class="full-width" appearance="fill">
             <mat-label>Option</mat-label>
             <input type="text" matInput [formControlName]="i">
-            <mat-error *ngIf="options.controls[i].hasError('required')">
+            <mat-error *ngIf="options.controls[i].hasError('required')" style="margin-top: 5px">
               Option <strong>required</strong>
             </mat-error>
           </mat-form-field>
         </div>
 
-        <button mat-raised-button color="primary" (click)="addOption()" [disabled]="options.controls.length === 5">+ Add another answer</button>
+        <div style="margin-top: 10px">
+          <button mat-raised-button color="primary" (click)="addOption()" [disabled]="options.controls.length === 5">+ Add another answer</button>
+        </div>
       </div>
     </ng-container>
 
     <ng-container>
-      <div>
+      <div style="margin-top: 20px">
         <mat-checkbox class="form-control" formControlName="isAllowUser">
-          <p style="color: midnightblue">Allow user to specify their own answer</p>
+          <span style="color: midnightblue">Allow user to specify their own answer</span>
         </mat-checkbox>
       </div>
-      <div>
+      <div style="margin-top: 10px">
         <mat-checkbox class="form-control" formControlName="isRequired">
-          <p style="color: midnightblue">This field is required</p>
+          <span style="color: midnightblue">This field is required</span>
         </mat-checkbox>
       </div>
     </ng-container>
 
   </form>
 </div>
-<div mat-dialog-actions align="end">
+<div mat-dialog-actions>
   <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!questionForm.valid">Submit</button>
 </div>
 

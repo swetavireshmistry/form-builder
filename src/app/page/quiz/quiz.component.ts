@@ -13,6 +13,7 @@ export interface Question {
   options: any;
   data: any;
   isAllowUser: boolean;
+  userId: string;
   isRequired: boolean;
   requiredMessage: string;
 }
@@ -28,9 +29,10 @@ export class QuizComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   AddQuestionForm: FormGroup;
   questions: Question[] = [];
+  checked: any = [];
+  userId = '1234'
 
   @ViewChildren ('checkBox' ) checkBox:QueryList<any>;
-  checked: any = [];
 
   constructor(
     public dialog: MatDialog,
@@ -100,7 +102,7 @@ export class QuizComponent implements OnInit, OnDestroy {
   isDisable(): boolean {
     let isDisable = false;
     this.questions.map((question) => {
-      if (question.isRequired && (!question.data || question.data.length === 0)) {
+      if (question.isRequired && (!question.data || question.data.length === 0) && question.isAllowUser) {
         isDisable = true
       }
     })

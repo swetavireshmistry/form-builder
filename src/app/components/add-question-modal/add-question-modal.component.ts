@@ -21,6 +21,7 @@ export class AddQuestionModalComponent implements OnInit, AfterViewInit {
       answerType: 'text',
       isRequired: false,
       isAllowUser: false,
+      userId: '1234'
     })
   }
 
